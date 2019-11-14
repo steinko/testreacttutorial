@@ -1,9 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import Enzyme from 'enzyme';
+import EzymeAdapter from  'enzyme-adapter-react-16';
 import App from './App';
+import {shallow} from 'enzyme'
+
+Enzyme.configure({adapter: new EzymeAdapter()});
 
 it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
-});
+  const wrapper = shallow(<App />)
+})
