@@ -31,8 +31,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "jest": "^24.9.0",
-    "jest-environment-webdriver": "^0.2.0"
-  }
+  "devDependencies": {}
 }
