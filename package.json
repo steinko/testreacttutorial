@@ -30,5 +30,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "chromedriver": "^78.0.1",
+    "jest": "^24.9.0",
+    "jest-environment-webdriver": "^0.2.0",
+    "selenium-webdriver": "^3.6.0"
   }
 }
