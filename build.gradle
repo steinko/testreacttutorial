@@ -15,6 +15,7 @@ task npmBuild(type: NpmTask) {
 	group "npm"
 	description "build npm"
     dependsOn 'npmTest'
+	dependsOn 'npmLint'
 
     execOverrides {
         it.workingDir = "$projectDir"
@@ -30,3 +31,13 @@ task npmTest(type:NpmTask){
     }
     args = ['run', 'test',  '--','--watchAll=false']
 }
+
+task npmLint(type:NpmTask){
+	group "npm"
+	description "lint npm"
+    execOverrides {
+        it.workingDir = "$projectDir"
+    }
+    args = ['run', 'lint']
+}
+
