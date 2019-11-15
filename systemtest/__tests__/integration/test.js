@@ -35,9 +35,10 @@ describe('www.actionherojs.com#index', () => {
 
 describe('acceptance tests', () => {
   test('it renders', async () => {
-    await browser.get('http://localhost:3000')
-    await browser.findElement(by.id('button')).click()
+	await browser.get('http://localhost:3000')	
+    await browser.findElement(by.id('button'))
     const counter = await browser.findElement(by.id("counter")).getText()
-    expect(counter).toBe(1)
+    expect(counter).toBe("0")
   })
+
 })
