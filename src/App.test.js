@@ -1,4 +1,5 @@
 
+import React from 'react' /* eslint-disable-line no-unused-vars */
 import Enzyme, { shallow } from 'enzyme'
 import EzymeAdapter from 'enzyme-adapter-react-16'
 import App from './App' /* eslint-disable-line no-unused-vars */
