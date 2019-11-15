@@ -1,0 +1,23 @@
+plugins {   
+            id 'com.moowork.node' version "1.3.1"          
+	    }
+
+task npmBuild(type: NpmTask) {
+	group "npm"
+	description "build npm"
+    dependsOn 'npmTest'
+
+    execOverrides {
+        it.workingDir = "$projectDir"
+    }
+    args = ['run', 'build']
+}
+
+task npmTest(type:NpmTask){
+	group "npm"
+	description "test npm"
+    execOverrides {
+        it.workingDir = "$projectDir"
+    }
+    args = ['run', 'test',  '--','--watchAll=false']
+}
