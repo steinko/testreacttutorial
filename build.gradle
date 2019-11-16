@@ -1,15 +1,47 @@
+
 buildscript {
   repositories {
+     jcenter()
+     mavenCentral()
     maven {
       url "https://plugins.gradle.org/m2/"
     }
   }
   dependencies {
     classpath "com.moowork.gradle:gradle-node-plugin:1.3.1"
+    classpath 'com.google.cloud.tools:appengine-gradle-plugin:2.1.0' 
   }
 }
 
 apply plugin: "com.moowork.node"
+apply plugin: 'com.google.cloud.tools.appengine-appyaml'
+
+repositories {
+    mavenCentral()
+    maven {
+    url 'https://maven-central.storage.googleapis.com'             // Google's mirror of Maven Central
+  }
+}
+
+appengine {
+  
+
+  stage {
+      appEngineDirectory  'config'
+      dockerDirectory 'config'
+      artifact  'build/libs/testreacttutorial.jar'
+      
+    }
+  deploy {   
+    appEngineDirectory = './'
+    stopPreviousVersion = true  // default - stop the current version
+    promote = true              // default - & make this the current version
+    projectId = 'springboot15'
+    version = '1'
+  }
+
+}
+
 
 task npmBuild(type: NpmTask) {
 	group "npm"
@@ -20,7 +52,7 @@ task npmBuild(type: NpmTask) {
     execOverrides {
         it.workingDir = "$projectDir"
     }
-    args = ['run', 'build']
+    args = ['run', 'build','-o','config']
 }
 
 task npmTest(type:NpmTask){
@@ -40,4 +72,39 @@ task npmLint(type:NpmTask){
     }
     args = ['run', 'lint']
 }
+
+
+task buildDockerImage(type: Exec) { 
+    group 'docker'
+    description 'build docker image'
+    commandLine 'docker', 'build', '-t', 'steinko/testreacttutorial:1', '.'
+   }
+
+task runDockerImage(type: Exec) { 
+    dependsOn buildDockerImage
+    group 'docker'
+    description 'run docker image'
+    commandLine 'docker', 'run', '-p', '8080:8080','steinko/testreacttutorial:1'
+   }
+
+
+task createGCP(type:Exec) {
+
+	group 'Deployment'
+	description 'create google cloud project'
+	commandLine 'ansible-playbook', '../../Infrastructure/Deployment/CreateProject.yaml'
+ }
+
+ task deletGCP (type:Exec) {
+   group 'Deployment'
+	description 'create google cloud project'
+	commandLine 'ansible-playbook', '../../Infrastructure/Deployment/DeleteProject.yaml'
+}
+
+task copyBuild (type:Copy){
+  from 'build'
+  into 'config/build'
+
+  }
+
 

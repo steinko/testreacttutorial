@@ -6,21 +6,39 @@ import App from './App' /* eslint-disable-line no-unused-vars */
 
 Enzyme.configure({ adapter: new EzymeAdapter() })
 
+/**
+ * Factory Function fo create a Shallow Wrapper
+ * @function setup
+ * @param (object) prop
+ * @param (any) state
+ * @returns(ShallowWrapper)
+ */
+const setup = (props = {}, state = null) => {
+  return shallow(<App{...props} />)
+}
+
+/**
+ * return ShallowWrapper containing node(s) with the given dataTest value
+ */
+const findByTestAttr = (wrapper, val) => {
+  return wrapper.find({ dataTest: val })
+}
+
 it('renders without crashing', () => {
-  const wrapper = shallow(<App />)
-  const appComp = wrapper.find({ dataTest: 'component-app' })
+  const wrapper = setup()
+  const appComp = findByTestAttr(wrapper, 'component-app')
   expect(appComp.length).toBe(1)
 })
 
 it('should exist a increment buttom', () => {
-  const wrapper = shallow(<App />)
-  const button = wrapper.find({ dataTest: 'button-increment' })
+  const wrapper = setup()
+  const button = findByTestAttr(wrapper, 'button-increment')
   expect(button.length).toBe(1)
 })
 
 it('should exist a  counter display', () => {
-  const wrapper = shallow(<App />)
-  const display = wrapper.find({ dataTest: 'display-count' })
+  const wrapper = setup()
+  const display = findByTestAttr(wrapper, 'display-count')
   expect(display.length).toBe(1)
 })
 
